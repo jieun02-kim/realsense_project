@@ -1,0 +1,40 @@
+import pyrealsense2 as rs
+import numpy as np
+import cv2
+import signal, sys
+
+win_name = 'RealSense Color'
+stop = False
+def _sigint_handler(sig, frame):
+    global stop; stop = True
+signal.signal(signal.SIGINT, _sigint_handler)  # Ctrl+C 처리
+
+pipeline = rs.pipeline()
+config = rs.config()
+config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
+
+pipeline.start(config)
+cv2.namedWindow(win_name, cv2.WINDOW_NORMAL)  # 창 이름 고정
+try:
+    while not stop:
+        # 창이 이미 닫혔는지(닫힘 버튼) 확인
+        if cv2.getWindowProperty(win_name, cv2.WND_PROP_VISIBLE) < 1:
+            break
+
+        frames = pipeline.wait_for_frames()
+        color_frame = frames.get_color_frame()
+        if not color_frame:
+            # 잠깐 쉬어 이벤트 펌프
+            cv2.waitKey(1)
+            continue
+
+        img = np.asanyarray(color_frame.get_data())
+        cv2.imshow(win_name, img)
+
+        # 키 입력 처리: ESC(27) 또는 q 종료
+        k = cv2.waitKey(1) & 0xFF
+        if k in (27, ord('q')):
+            break
+finally:
+    pipeline.stop()
+    cv2.destroyAllWindows()
