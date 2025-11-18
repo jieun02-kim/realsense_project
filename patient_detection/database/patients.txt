@@ -1,6 +1,0 @@
-1	jieun	kim	f	A+	152	\N	False
-2	yeonhu	cho	f	AB	162	\N	false
-3	jimin	lim	f	\N	165	\N	false
-4	Jiyoon	woo	f	O	160	\N	false
-5	keonwoo	kim	m	AB	171	\N	false
-6	raim	delgado	m	A	165	\N	true
