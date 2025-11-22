@@ -47,7 +47,7 @@ mysql.connector.connect(
 pool = MySQLConnectionPool(
                                   pool_name="main", pool_size=5,
                                   user='jieun', password='1234',
-                                  host='127.0.0.1',
+                                  host='192.168.120.233',
                                   database='hospital',
                                   connection_timeout=5)
 
